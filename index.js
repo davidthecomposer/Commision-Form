@@ -1,23 +1,11 @@
 /* jshint esversion: 6 */
 
-const inputs = document.querySelectorAll('.required');
-const name = document.getElementById('name');
-const radios = document.querySelectorAll('input[type="radio"]');
-const form = document.querySelector('.form');
 
-// Make sure name is first input since it is required
-name.focus();
-
-
-// disallow ENTER key to submit form unless on submit button
-window.addEventListener('keydown', function(e) {
-    if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
-        if (e.target.nodeName == 'INPUT' && e.target.type !== 'submit') {
-            e.preventDefault();
-            return false;
-        }
-    }
-}, true);
+const focusOnNameInput = () => {
+    // Make sure name is first input since it is required
+    const name = document.getElementById('name');
+    name.focus();
+};
 
 // Action taken when navigating between elements
 const blurActions = (event) => {
@@ -65,30 +53,49 @@ const radioFocus = (event) => {
     validateId.innerHTML = event.target.validationMessage;
 };
 
-// Event Listeners for required text inputs
-inputs.forEach((input) => {
-    input.addEventListener('blur', blurActions);
-    input.addEventListener('focus', focusAction);
 
-});
+const addEventListeners = () => {
 
+    const inputs = document.querySelectorAll('.required');
+    const radios = document.querySelectorAll('input[type="radio"]');
 
-// Event listeners for radio buttons
-radios.forEach((radio) => {
-    radio.addEventListener('click', blurActions);
-    radio.addEventListener('blur', blurActions);
-    radio.addEventListener('focus', radioFocus);
-});
+    // Event Listeners for required text inputs
 
+    inputs.forEach((input) => {
+        input.addEventListener('blur', blurActions);
+        input.addEventListener('focus', focusAction);
+
+    });
 
 
+    // Event listeners for radio buttons
+    radios.forEach((radio) => {
+        radio.addEventListener('click', blurActions);
+        radio.addEventListener('blur', blurActions);
+        radio.addEventListener('focus', radioFocus);
+    });
 
+    // disallow ENTER key to submit form unless on submit button
+
+    window.addEventListener('keydown', function (e) {
+        if (e.keyIdentifier == 'U+000A' || e.keyIdentifier == 'Enter' || e.keyCode == 13) {
+            if (e.target.nodeName == 'INPUT' && e.target.type !== 'submit') {
+                e.preventDefault();
+                return false;
+            }
+        }
+    }, true);
+
+};
+
+
+// Active Functions
+focusOnNameInput();
+addEventListeners();
 
 //For Future updates:
 
 // link to email with PHP script.
-        // Will need to leearn some PHP for this
+// Will need to learn some PHP for this
 // see if possible to pull into JS file or how those interact.
-        // Learn mechanics of this. Will I need to set up a server with Node JS?
-
-        
+// Learn mechanics of this. Will I need to set up a server with Node JS?
